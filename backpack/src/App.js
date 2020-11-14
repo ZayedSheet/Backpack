@@ -5,6 +5,7 @@ import {
   BrowserRouter as Router,
 } from "react-router-dom";
 import DataProvider from './DataProvider';
+import Navbar from './components/Navbar/Navbar'
 
 function App() {
   const [calendar, setCalendar] = useState();
@@ -17,6 +18,7 @@ function App() {
   return (
     <Router>
     <DataProvider>
+      <Navbar />
       <Routes />
     </DataProvider>
     </Router>
