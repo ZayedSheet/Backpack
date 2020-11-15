@@ -41,9 +41,57 @@ export const CALENDAR_EVENTS = [
         end: new Date(2018, 0, 3, 15, 30), //start datetime
         color: '#ffef62',
         type: 'type6',
-        courseCode: '4HC4',
+        courseCode: 'COMPSCI 4HC3',
         isCourse: true
     },
-    
-    
+]
+
+export const COURSES = [
+    {
+        courseCode: 'COMPSCI 4HC3',
+        name: 'Human Computer Interaction',
+        prerequisites: 'COMPSCI 3HC3',
+        antirequisites: 'SOMETHING SHR2',
+        description: 'UI stuff',
+        times:[
+        {
+            day: 0,
+            from: [8, 30],
+            to: [9, 20],
+        },
+        {
+            day: 1,
+            from: [8, 30],
+            to: [9, 20],
+        },
+        {
+            day: 2,
+            from: [8, 30],
+            to: [9, 20],
+        }]
+    },
+    {
+        courseCode: 'SFRWENG 1234',
+        name: 'Coding stuff',
+        prerequisites: 'MATH 1ABC',
+        antirequisites: 'SFREWNG 567',
+        description: 'How to software',
+        times:[
+        {
+            day: 2,
+            from: [4, 30],
+            to: [5, 20],
+        },
+        {
+            day: 3,
+            from: [5, 30],
+            to: [6, 20],
+        },
+        {
+            day: 4,
+            from: [4, 30],
+            to: [5, 20],
+        }],
+        
+    }
 ]

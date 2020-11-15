@@ -17,6 +17,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Grid } from '@material-ui/core';
+import { COURSES } from '../../DefaultData';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const drawerWidth = '26.5%';
 
@@ -78,9 +81,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({children, isSideBarOpen}) => {
+
+
+export default ({ isSideBarOpen }) => {
   const classes = useStyles();
-  const theme = useTheme();
 
   return (
     <div className={classes.root}>
@@ -93,6 +97,43 @@ export default ({children, isSideBarOpen}) => {
           paper: classes.drawerPaper,
         }}
       >
+        <Box pt={10} px={2}>
+          <Grid container>
+            <Grid item xs={6}>
+              Search Text
+            </Grid>
+            <Grid item xs={6} container xs={6} justify='flex-end'>
+              Filter
+            </Grid>
+          </Grid>
+
+          <Box py={4}>
+            <Divider />
+          </Box>
+          <Grid container>
+            {
+              COURSES.map(x => {
+                return (
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                    >
+                      <Typography variant={'h5'}>{x.courseCode}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                        sit amet blandit leo lobortis eget.
+                    </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                )
+            })
+            }
+          </Grid>
+        </Box>
       </Drawer>
     </div>
   );

@@ -124,7 +124,7 @@ export default () => {
               </Grid>
 
               <Grid item xs={9}>
-                <div style={{ height: '700px' }}>
+                <div style={{ height: '750px' }}>
                   <Calendar />
                 </div>
               </Grid>

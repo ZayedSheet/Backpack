@@ -58,12 +58,12 @@ export default () => {
                 }}
                 localizer={localizer}
                 events={calendarEvents.filter(x => !x.hidden)}
-                step={60}
                 view='week'
                 views={['week']}
-                min={new Date(2008, 0, 1, 8, 0)} // 8.00 AM
-                max={new Date(2008, 0, 1, 22, 0)} // Max will be 6.00 PM!
+                min={new Date(2008, 0, 1, 0, 0)}
+                max={new Date(2008, 0, 1, 23, 59)} 
                 date={new Date(2018, 0, 1)}
+                scrollToTime={new Date(0, 0, 0, 8,0)}
                 eventPropGetter={eventPropGetter}
             />
         </div>
