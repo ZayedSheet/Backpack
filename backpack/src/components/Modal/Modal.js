@@ -64,7 +64,7 @@ export default function TransitionsModal(props) {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <h2 style={{color: "#414141"}} id="modal-title">Event Details</h2>
-          <IconButton style={{position: "absolute", top:  "15px", right: "15px"}} aria-label="exit">
+          <IconButton onClick={props.modalClose} style={{position: "absolute", top:  "15px", right: "15px"}} aria-label="exit">
             <ClearIcon/>
           </IconButton>
           <Divider style={{margin: "10px 0px"}}/>
@@ -167,7 +167,7 @@ export default function TransitionsModal(props) {
           <Button style={{backgroundColor: "#4051B5", color: "white", width: "95%"}}>Update</Button>
         </Grid>
         <Grid item xs={2}>
-          <Button style={{backgroundColor: "#414141", color: "white", width: "95%"}}>Cancel</Button>
+          <Button onClick={props.modalClose} style={{backgroundColor: "#414141", color: "white", width: "95%"}}>Cancel</Button>
         </Grid>
       </Grid>
     </form>
