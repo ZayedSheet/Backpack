@@ -5,19 +5,31 @@ import {
   Route,
 } from "react-router-dom";
 import Calendar from '../Calendar/Calendar';
-import Modal from '../Modal/Modal'
+import Modal from '../Modal/Modal';
+import SideBar from  '../SideBar/SideBar';
 
 export default () => {
 
-  const [isModalOpen, setOpen] = React.useState(true);
+  const [isModalOpen, setModal] = React.useState(false);
+  const [isSideBarOpen, setSideBar] = React.useState(false);
 
   const modalOpen = () => {
-    setOpen(true);
+    setModal(true);
   };
 
   const modalClose = () => {
-    setOpen(false);
+    setModal(false);
   };
+
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setSideBar(open);
+  };
+
+
   return (
     <>
       <Box mt={5} />
@@ -25,6 +37,7 @@ export default () => {
         <Grid item xs={10} container>
           <Grid item xs={12}>
             <Button onClick={modalOpen}>Open Modal</Button>
+            <Button onClick={toggleDrawer(true)}>Add Course</Button>
           </Grid>
           <Grid itemx xs={12}>
             <Calendar />
@@ -33,6 +46,7 @@ export default () => {
         </Grid>
       </Grid>
       <Modal modalClose={modalClose} isModalOpen={isModalOpen} />
+      <SideBar toggleDrawer={toggleDrawer} isSideBarOpen={isSideBarOpen}/>
     </>
   );
 }
