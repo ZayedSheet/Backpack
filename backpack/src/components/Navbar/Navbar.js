@@ -7,6 +7,9 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+  },
+  appBar:{
+    zIndex: theme.zIndex.drawer + 1,
   }
 }));
 
@@ -15,7 +18,7 @@ export default function NavBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar className={classes.appBar} position="fixed">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             Backpack

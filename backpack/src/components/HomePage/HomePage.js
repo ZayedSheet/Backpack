@@ -1,17 +1,26 @@
-import { Box, Grid, Button } from '@material-ui/core';
-import React from 'react';
+import { Box, Grid, Button, Card, Paper, Typography, Select, FormControl, InputLabel, MenuItem, Divider, FormControlLabel, Checkbox } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import {
   Switch,
   Route,
 } from "react-router-dom";
+import { useDataProvider } from '../../DataProvider';
 import Calendar from '../Calendar/Calendar';
 import Modal from '../Modal/Modal';
-import SideBar from  '../SideBar/SideBar';
+import SideBar from '../SideBar/SideBar';
 
 export default () => {
+  const { calendarEvents, setCalendarEvents } = useDataProvider();
 
   const [isModalOpen, setModal] = React.useState(false);
   const [isSideBarOpen, setSideBar] = React.useState(false);
+  const [filterForm, setFilterForm] = useState({
+    courseCode: '*',
+    type: '*',
+    showInstructor: true,
+    showSection: true,
+    showCourseCode: true,
+  });
 
   const modalOpen = () => {
     setModal(true);
@@ -21,32 +30,110 @@ export default () => {
     setModal(false);
   };
 
-  const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
+  const hideEvent = (event) => {
+    const showEvent = (filterForm.courseCode == '*' || filterForm.courseCode == event.courseCode) &&
+      (filterForm.type == '*' || filterForm.type == event.type);
+    return !showEvent;
+  }
 
-    setSideBar(open);
-  };
+  useEffect(() => {
+    let filteredData = calendarEvents.map(x => ({ ...x, hidden: hideEvent(x) }));
+    setCalendarEvents(filteredData);
+  }, [filterForm]);
 
 
   return (
     <>
-      <Box mt={5} />
-      <Grid container justify='center'>
-        <Grid item xs={10} container>
-          <Grid item xs={12}>
-            <Button onClick={modalOpen}>Open Modal</Button>
-            <Button onClick={toggleDrawer(true)}>Add Course</Button>
-          </Grid>
-          <Grid itemx xs={12}>
-            <Calendar />
-          </Grid>
+        <Box mt={5} />
+        <Grid container justify='center'>
+          <Grid item xs={11} container >
+            <Grid item xs={12} container justify='flex-end'>
+              <Button onClick={modalOpen}>Open Modal</Button>
+              <Button onClick={() => setSideBar(!isSideBarOpen)}>Add Course</Button>
+            </Grid>
+            <Grid itemx xs={12} container spacing={2}>
 
+
+              <Grid item xs={3}>
+                <Box mt={5} />
+                <Paper elevation={4} style={{ height: "650px" }}>
+                  <Box p={2}>
+                    <Grid container item xs={7}>
+                      <FormControl fullWidth>
+                        <InputLabel>Course</InputLabel>
+                        <Select
+                          value={filterForm.courseCode || '*'}
+                          onChange={(e) => {
+                            setFilterForm({ ...filterForm, courseCode: e.target.value })
+                          }}
+                        >
+                          <MenuItem value={'*'}>All</MenuItem>
+                          {
+                            [...new Set(calendarEvents.filter(x => x.courseCode).map(x => x.courseCode))].map(x => (
+                              <MenuItem value={x}>{x}</MenuItem>
+                            ))
+                          }
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Box mt={3} />
+                    <Grid container item xs={7}>
+                      <FormControl fullWidth>
+                        <InputLabel>Type</InputLabel>
+                        <Select
+                          value={filterForm.type || '*'}
+                          onChange={(e) => {
+                            setFilterForm({ ...filterForm, type: e.target.value })
+                          }}
+                        >
+                          <MenuItem value={'*'}>All</MenuItem>
+                          {
+                            calendarEvents.map(x => (
+                              <MenuItem value={x.type}>{x.type}</MenuItem>
+                            ))
+                          }
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Box mt={3} />
+                    <Divider />
+                    <Box mt={3} />
+
+                    <Grid container item xs={12}>
+                      <Grid item xs={12}>
+                      <FormControlLabel
+                        control={<Checkbox size='small' color='primary' checked={filterForm.showInstructor} onChange={(e) => setFilterForm({ ...filterForm, showInstructor: e.target.checked })} />}
+                        label="Show Instructor"
+                      />
+                      </Grid>
+                      <Grid item xs={12}>
+                      <FormControlLabel
+                        control={<Checkbox size='small' color='primary' checked={filterForm.showCourseCode} onChange={(e) => setFilterForm({ ...filterForm, showCourseCode: e.target.checked })} />}
+                        label="Show Course Code"
+                      />
+                      </Grid>
+                      <Grid item xs={12}>
+                      <FormControlLabel
+                        control={<Checkbox size='small' color='primary' checked={filterForm.showSection} onChange={(e) => setFilterForm({ ...filterForm, showSection: e.target.checked })} />}
+                        label="Show Section"
+                      />
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </Paper>
+              </Grid>
+
+              <Grid item xs={9}>
+                <div style={{ height: '700px' }}>
+                  <Calendar />
+                </div>
+              </Grid>
+
+            </Grid>
+          </Grid>
         </Grid>
-      </Grid>
       <Modal modalClose={modalClose} isModalOpen={isModalOpen} />
-      <SideBar toggleDrawer={toggleDrawer} isSideBarOpen={isSideBarOpen}/>
+      <SideBar isSideBarOpen={isSideBarOpen} />
     </>
   );
 }

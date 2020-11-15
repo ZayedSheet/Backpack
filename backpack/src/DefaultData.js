@@ -36,11 +36,13 @@ export const CALENDAR_EVENTS = [
         type: 'type5'
     },
     {
-        title: 'Event 6',
+        title: 'Course 1',
         start: new Date(2018, 0, 3, 11, 30), // end datetime
         end: new Date(2018, 0, 3, 15, 30), //start datetime
         color: '#ffef62',
-        type: 'type6'
+        type: 'type6',
+        courseCode: '4HC4',
+        isCourse: true
     },
     
     

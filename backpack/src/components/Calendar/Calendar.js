@@ -50,14 +50,14 @@ const CustomToolbar = ({ }) => {
 export default () => {
     const { calendarEvents, setCalendarEvents } = useDataProvider();
     return (
-        <div style={{ height: 700 }}>
+        <div style={{ height: '100%' }}>
             <Calendar
                 components={{
                     event: MonthEvent,
                     //toolbar: CustomToolbar
                 }}
                 localizer={localizer}
-                events={calendarEvents}
+                events={calendarEvents.filter(x => !x.hidden)}
                 step={60}
                 view='week'
                 views={['week']}

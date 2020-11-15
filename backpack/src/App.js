@@ -6,12 +6,14 @@ import {
 } from "react-router-dom";
 import DataProvider from './DataProvider';
 import Navbar from './components/Navbar/Navbar'
+import { Box } from '@material-ui/core';
 
 function App() {
   return (
     <Router>
       <DataProvider>
         <Navbar />
+        <Box pt={5} />
         <Routes />
       </DataProvider>
     </Router>
