@@ -10,6 +10,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -25,9 +26,12 @@ const useStyles = makeStyles((theme) => ({
     width: "50%",
     position: "relative"
   },
+  textfield: {
+    width: "100%",
+  }
 }));
 
-const times = [
+const types = [
   {
     value: 'None',
     label: 'None',
@@ -50,13 +54,44 @@ const times = [
   },
 ];
 
+const courses = [
+  {
+    value: 'None',
+    label: 'None',
+  },
+  {
+    value: '4HC3',
+    label: '4HC3',
+  },
+  {
+    value: '1BA3',
+    label: '1BA3',
+  },
+  {
+    value: '4AA4',
+    label: '4AA4',
+  },
+  {
+    value: '4MC3',
+    label: '4MC3',
+  }
+]
+
 export default function TransitionsModal(props) {
   const classes = useStyles();
 
-  const [time, setTime] = React.useState('None');
+  const currentDate = moment(new Date()).format("YYYY-MM-DD");
 
-  const handleChange = (event) => {
-    setTime(event.target.value);
+  const [type, setType] = React.useState('None');
+
+  const handleType = (event) => {
+    setType(event.target.value);
+  };
+
+  const [course, setCourse] = React.useState('None');
+
+  const handleCourse = (event) => {
+    setCourse(event.target.value);
   };
 
   const form = (
@@ -71,20 +106,19 @@ export default function TransitionsModal(props) {
         </Grid>
 
         <Grid item xs={6}>
-          <TextField style={{width: "100%"}} id="outlined-multiline-static" label="Outlined" variant="outlined" />
+          <TextField style={{width: "100%"}} id="eventName" label="Event Name" variant="outlined" />
         </Grid>
         <Grid item xs={3}>
           <TextField
-            style={{width: "100%"}}
-            id="outlined-select-currency"
+            className={classes.textfield}
+            id="course"
             select
-            label="Select"
-            value={time}
-            onChange={handleChange}
-            helperText="Please select your currency"
+            label="Course"
+            value={course}
+            onChange={handleCourse}
             variant="outlined"
           >
-            {times.map((option) => (
+            {courses.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
@@ -93,71 +127,80 @@ export default function TransitionsModal(props) {
         </Grid>
         <Grid item xs={3}>
           <TextField
-            style={{width: "100%"}}
-            id="outlined-select-currency"
-            select
-            label="Select"
-            value={time}
-            onChange={handleChange}
-            helperText="Please select your currency"
-            variant="outlined"
-          >
-            {times.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+              className={classes.textfield}
+              id="eventType"
+              select
+              label="Type"
+              value={type}
+              onChange={handleCourse}
+              variant="outlined"
+            >
+              {types.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
         </Grid>
 
         <Grid item xs={6}>
-          <TextField style={{width: "100%"}} id="outlined-multiline-static" label="Outlined" variant="outlined" />
+          <TextField
+            className={classes.textfield}
+            id="date"
+            label="Date"
+            variant="outlined"
+            helperText="Enter the event date"
+            type="date"
+            defaultValue={currentDate}
+            className={classes.textfield}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
         </Grid>
         <Grid item xs={3}>
           <TextField
-            style={{width: "100%"}}
-            id="outlined-select-currency"
-            select
-            label="Select"
-            value={time}
-            onChange={handleChange}
-            helperText="Please select your currency"
+            id="from"
+            label="From"
+            type="time"
             variant="outlined"
-          >
-            {times.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+            defaultValue="08:00"
+            helperText="Enter the start time"
+            className={classes.textfield}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            inputProps={{
+              step: 60, // 1 min
+            }}
+          />
         </Grid>
         <Grid item xs={3}>
           <TextField
-            style={{width: "100%"}}
-            id="outlined-select-currency"
-            select
-            label="Select"
-            value={time}
-            onChange={handleChange}
-            helperText="Please select your currency"
+            id="to"
+            label="To"
+            type="time"
+            helperText="Enter the end time"
             variant="outlined"
-          >
-            {times.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+            defaultValue="08:15"
+            className={classes.textfield}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            inputProps={{
+              step: 60, // 1 min
+            }}
+          />
         </Grid>
 
         <Grid item xs={12}>
           <TextField
-            style={{width: "100%", margin: "15px 0px"}} 
-            id="outlined-multiline-static"
-            label="Multiline"
+            className={classes.textfield}
+            style={{margin: "15px 0px"}} 
+            id="description"
+            label="Description"
             multiline
             rows={5}
-            defaultValue="Default Value"
             variant="outlined"
           />
           <Divider style={{margin: "10px 0px"}}/>
