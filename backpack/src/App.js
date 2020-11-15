@@ -17,7 +17,7 @@ function App() {
     calendar: [],
   }
 
-  const [isModalOpen, setOpen] = React.useState(false);
+  const [isModalOpen, setOpen] = React.useState(true);
 
   const modalOpen = () => {
     setOpen(true);
