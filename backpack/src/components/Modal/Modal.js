@@ -124,7 +124,7 @@ export default function TransitionsModal(props) {
       end: getDateObject(date, endTime)
     };
 
-    if(modalState){
+    if(modalState?.id){
       const events = calendarEvents.filter((event) =>  event.id !== modalState.id);
       setCalendarEvents([...events, newEvent]);
       props.modalClose();
@@ -278,7 +278,7 @@ export default function TransitionsModal(props) {
               <Button onClick={props.modalClose} style={{backgroundColor: "#414141", color: "white", width: "125px"}}>Cancel</Button>
             </Grid>
           </Grid>
-          { modalState &&
+          { Boolean(modalState && modalState.id) &&
             <Grid item>
               <Button onClick={deleteEvent} style={{backgroundColor: "#ff1744", color: "white", width: "125px"}}>Delete</Button>
             </Grid>
