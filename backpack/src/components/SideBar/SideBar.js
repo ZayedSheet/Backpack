@@ -101,7 +101,6 @@ const CourseAccordion = ({ course }) => {
   const isAdded = Boolean(addedEvent);
   const selected = isAdded ? addedEvent.section : course.sections[0];
   const [selectedSection, setSelectedSection] = useState(selected);
-  window.selected = selected;
   const addCourse = () => {
     const baseDate = getFirstSunday();
 
@@ -125,7 +124,6 @@ const CourseAccordion = ({ course }) => {
         courseEvents.push(newEvent);
       }
     }
-    console.log(courseEvents);
     setCalendarEvents([...calendarEvents, ...courseEvents]);
     notify(`${course.courseCode} added`);
   }

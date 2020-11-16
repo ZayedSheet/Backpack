@@ -1,3 +1,6 @@
 .rbc-event-label {
     display: none !important;
   }
+  .rbc-event {
+    z-index: 999 !important;
+  }

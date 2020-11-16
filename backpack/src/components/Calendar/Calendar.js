@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Button, Chip, Grid, IconButton, Paper, Typography } from '@material-ui/core';
+import { Box, Button, Chip, Grid, IconButton, makeStyles, Paper, Popover, Typography } from '@material-ui/core';
 import { useDataProvider } from '../../DataProvider';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -14,9 +14,55 @@ import {
 import DateRangeIcon from '@material-ui/icons/DateRange';
 moment.locale('en-GB');
 const localizer = momentLocalizer(moment);
+
+const useStyles = makeStyles((theme) => ({
+    popover: {
+      pointerEvents: 'none',
+      marginLeft:'10px',
+      marginRight:'10px',
+    },
+    paper: {
+      padding: theme.spacing(1),
+    },
+    
+  }));
+
 const MonthEvent = ({ event }) => {
+    const classes = useStyles();
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handlePopoverOpen = (e) => {
+        console.log('open')
+      setAnchorEl(e.currentTarget);
+    };
+  
+    const handlePopoverClose = () => {
+        console.log('close')
+        setAnchorEl(null);
+    };
+    const open = Boolean(anchorEl);
+
+    const formatDateRange = () => {
+        let {start, end} = event;
+        return `${event.start.toDateString()}, ${moment(start).format('hh:mm A')} - ${moment(end).format('hh:mm A')}`;
+    }
+
+    const formatDescription = () => {
+        const maxLength = 100;
+        return event.description.length > maxLength ? `${event.description.substring(0, maxLength - 3)}...` : event.description;
+    }
+
     return (
-        <Grid container>
+        <div  
+        style={{height:'100%'}}
+        onMouseEnter={handlePopoverOpen}
+        onMouseLeave={handlePopoverClose}
+        >
+        <Grid 
+            container 
+           
+        >
             <Grid item xs={12}>
                 <Typography variant='subtitle1'>
                     {event.isCourse ? event.courseCode : event.title}
@@ -29,6 +75,73 @@ const MonthEvent = ({ event }) => {
                 </Grid>
             }
         </Grid>
+        <Popover
+            className={classes.popover}
+            open={open}
+            anchorEl={anchorEl}
+            anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+            }}
+            onClose={handlePopoverClose}
+        >
+            <Paper style={{minWidth: '200px', maxWidth:'300px'}}>
+                <Box py={1} px={2}>
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <Typography variant='caption'>
+                                {formatDateRange()}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Typography variant='h6'>
+                                {event.title}
+                            </Typography>
+                        </Grid>
+                        
+                        {
+                            Boolean(event.isCourse && event.courseCode) &&
+                                <Grid item xs={12}>
+                                    <Typography variant='subtitle1'>
+                                        {event.courseCode}
+                                    </Typography>
+                                </Grid>
+                            
+                        }
+                        {
+                            Boolean(!event.isCourse && event.course) &&
+                                <Grid item xs={12}>
+                                    <Typography variant='subtitle1'>
+                                        {event.course}
+                                    </Typography>
+                                </Grid>
+                            
+                        }
+                        {
+                                <Grid item xs={12}>
+                                    <Typography variant='subtitle1'>
+                                        {event.type === 'None' ? 'Event' : event.type}
+                                    </Typography>
+                                </Grid>
+                        }
+                        {
+                            event.description &&
+                            <Grid item xs={12} style={{marginTop: '10px', maxWidth:'100%', maxHeight:'100px'}}>
+                            <Typography variant='body1' style={{wordWrap:'break-word'}}>
+                                {formatDescription()}
+                            </Typography>
+                        </Grid>
+                        }
+                        
+                    </Grid>
+                </Box>
+            </Paper>
+      </Popover>
+        </div>
     )
 };
 
@@ -138,6 +251,7 @@ export default (props) => {
                         props.onSelectSlot(info.start, info.end);
                     }
                 }}
+               tooltipAccessor={null}
             />
         </div>
     );
