@@ -272,7 +272,7 @@ export default function TransitionsModal(props) {
         <Grid item container justify="space-between">
           <Grid xs={9} spacing={2} container item>
             <Grid item>
-              <Button type= "submit" style={{backgroundColor: "#4051B5", color: "white", width: "125px"}}>{modalState ? "Update" : "Add"}</Button>
+              <Button type= "submit" style={{backgroundColor: "#4051B5", color: "white", width: "125px"}}>{Boolean(modalState && modalState.id) ? "Update" : "Add"}</Button>
             </Grid>
             <Grid item>
               <Button onClick={props.modalClose} style={{backgroundColor: "#414141", color: "white", width: "125px"}}>Cancel</Button>

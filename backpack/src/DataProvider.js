@@ -6,13 +6,10 @@ export const useDataProvider = () => useContext(Context);
 export default ({ children }) => {
   const [calendarEvents, setCalendarEvents] = useState([...CALENDAR_EVENTS]);
   const [myCourses, setMyCourses] = useState(CALENDAR_EVENTS.filter(x => x.courseCode).map(x => x.courseCode));
-  const [targetDate, setTargetDate] = useState(new Date());
   const store = {
     setCalendarEvents,
     calendarEvents,
     myCourses,
-    targetDate,
-    setTargetDate,
   }
 
   useEffect(() => {

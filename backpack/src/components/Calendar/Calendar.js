@@ -9,26 +9,28 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
 import {
-  DatePicker, MuiPickersUtilsProvider,
+    DatePicker, MuiPickersUtilsProvider,
 } from '@material-ui/pickers';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 moment.locale('en-GB');
 const localizer = momentLocalizer(moment);
-const MonthEvent = ({ event }) => { return (
-    <Grid container>
-        <Grid item xs={12}>
-            <Typography variant='subtitle1'>
-                {event.isCourse ? event.courseCode : event.title}
-            </Typography>
-        </Grid>
-        {
-            event.type &&
+const MonthEvent = ({ event }) => {
+    return (
+        <Grid container>
             <Grid item xs={12}>
-                <Chip onClick={() => { }} label={event.type} color='primary' size='small' />
+                <Typography variant='subtitle1'>
+                    {event.isCourse ? event.courseCode : event.title}
+                </Typography>
             </Grid>
-        }
-    </Grid>
-)};
+            {
+                event.type &&
+                <Grid item xs={12}>
+                    <Chip onClick={() => { }} label={event.type} color='primary' size='small' />
+                </Grid>
+            }
+        </Grid>
+    )
+};
 
 const eventPropGetter = (event, start, end, isSelected) => {
     //var backgroundColor = '#' + event.hexColor;
@@ -45,70 +47,73 @@ const eventPropGetter = (event, start, end, isSelected) => {
     };
 }
 
-const CustomToolbar = (props) => {
-    const { setTargetDate, targetDate } = useDataProvider();
-    const [openDatePicker,setOpenDatePicker] = useState(false);
-    const {label} = props;
-    return (
-        <Grid container alignItems='center'>
-            <Grid item xs={4}>
-                <IconButton 
-                 onClick={() => {
-                    let newDate = new Date(targetDate.getTime());
-                    newDate.setDate(newDate.getDate() - 7);
-                    setTargetDate(newDate);
-                }}
-                >
-                    <ChevronLeftIcon fontSize="large" />
-                </IconButton>
 
-                <Button
-                    onClick={() => {
-                        setTargetDate(new Date());
-                    }}
-                >
-                    Today
-                </Button>
-
-                <IconButton 
-                    onClick={() => {
-                        let newDate = new Date(targetDate.getTime());
-                        newDate.setDate(newDate.getDate() + 7);
-                        setTargetDate(newDate);
-                    }}
-                >
-                    <ChevronRightIcon fontSize="large" />
-                </IconButton>
-            </Grid>
-            <Grid item xs={4} container justify='center' alignItems='center'>
-                <Typography variant='body1'>
-                    {label}
-                </Typography>
-
-            <IconButton onClick={() => {
-                setOpenDatePicker(true)
-            }}>
-                <DateRangeIcon />
-            </IconButton>
-
-            <div style={{display:'none'}}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <DatePicker onClose={() => setOpenDatePicker(false)} value={targetDate} autoOk okLabel='' cancelLabel='' open={openDatePicker} onChange={(date) => {
-                        setTargetDate(date);
-                    }} />
-                </MuiPickersUtilsProvider>
-            </div>
-                
-            </Grid>
-            <Grid item xs={4} container justify='flex-end'>
-               
-            </Grid>
-        </Grid>
-    );
-}
 
 export default (props) => {
-    const { calendarEvents, targetDate } = useDataProvider();
+    const [targetDate, setTargetDate] = useState(new Date());
+    const CustomToolbar = ({ label }) => {
+        const {modalOpen, setSideBar, isSideBarOpen} = props;
+        const [openDatePicker, setOpenDatePicker] = useState(false);
+        return (
+            <Grid container alignItems='center'>
+                <Grid item xs={4}>
+                    <Button onClick={() => setSideBar(!isSideBarOpen)}>Add Course</Button>
+                    <Button onClick={modalOpen}>Add Event</Button>
+                </Grid>
+                <Grid item xs={4} container justify='center' alignItems='center'>
+                    <Typography variant='body1'>
+                        {label}, {targetDate.getFullYear()}
+                    </Typography>
+    
+                    <IconButton onClick={() => {
+                        setOpenDatePicker(true)
+                    }}>
+                        <DateRangeIcon />
+                    </IconButton>
+    
+                    <div style={{ display: 'none' }}>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <DatePicker onClose={() => setOpenDatePicker(false)} value={targetDate} autoOk okLabel='' cancelLabel='' open={openDatePicker} onChange={(date) => {
+                                setTargetDate(date);
+                            }} />
+                        </MuiPickersUtilsProvider>
+                    </div>
+    
+                </Grid>
+                <Grid item xs={4} container justify='flex-end'>
+                    <IconButton
+                        onClick={() => {
+                            let newDate = new Date(targetDate.getTime());
+                            newDate.setDate(newDate.getDate() - 7);
+                            setTargetDate(newDate);
+                        }}
+                    >
+                        <ChevronLeftIcon />
+                    </IconButton>
+    
+                    <Button
+                        onClick={() => {
+                            setTargetDate(new Date());
+                        }}
+                    >
+                        Today
+                    </Button>
+    
+                    <IconButton
+                        onClick={() => {
+                            let newDate = new Date(targetDate.getTime());
+                            newDate.setDate(newDate.getDate() + 7);
+                            setTargetDate(newDate);
+                        }}
+                    >
+                        <ChevronRightIcon />
+                    </IconButton>
+                </Grid>
+            </Grid>
+        );
+    }
+
+    const { calendarEvents } = useDataProvider();
     return (
         <div style={{ height: '100%' }}>
             <Calendar
@@ -128,7 +133,8 @@ export default (props) => {
                 onSelectEvent={props.eventSelect}
                 selectable
                 onSelectSlot={(info) => {
-                    if (info.action=='select'){
+                    console.log(info)
+                    if (info.action == 'select') {
                         props.onSelectSlot(info.start, info.end);
                     }
                 }}

@@ -63,15 +63,9 @@ export default () => {
         <Box mt={5} />
         <Grid container justify='center'>
           <Grid item xs={11} container >
-            <Grid item xs={12} container justify='flex-end'>
-              <Button onClick={modalOpen}>Open Modal</Button>
-              <Button onClick={() => setSideBar(!isSideBarOpen)}>Add Course</Button>
-            </Grid>
             <Grid itemx xs={12} container spacing={2}>
-
-
               <Grid item xs={3}>
-                <Box mt={5} />
+                <Box mt={6} />
                 <Paper elevation={4} style={{ height: "650px" }}>
                   <Box p={2}>
                     <Grid container item xs={7}>
@@ -141,7 +135,7 @@ export default () => {
 
               <Grid item xs={9}>
                 <div style={{ height: '750px' }}>
-                  <Calendar eventSelect={eventSelect} onSelectSlot={onSelectSlot}/>
+                  <Calendar modalOpen={modalOpen} setSideBar={setSideBar} isSideBarOpen={isSideBarOpen} eventSelect={eventSelect} onSelectSlot={onSelectSlot}/>
                 </div>
               </Grid>
 
