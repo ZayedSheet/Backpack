@@ -125,9 +125,9 @@ export default function TransitionsModal(props) {
     };
 
     if(modalState?.id){
+      newEvent.id = modalState.id;
       const events = calendarEvents.filter((event) =>  event.id !== modalState.id);
       setCalendarEvents([...events, newEvent]);
-      props.modalClose();
     } else {
       newEvent.id = getId();
       setCalendarEvents([...calendarEvents, newEvent]);
