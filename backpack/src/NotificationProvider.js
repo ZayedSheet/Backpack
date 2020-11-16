@@ -28,7 +28,7 @@ export default ({ children }) => {
       <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'center',
+          horizontal: 'left',
         }}
         open={open}
         message={message}

@@ -127,7 +127,7 @@ export default function TransitionsModal(props) {
       type: type,
       course: course,
       description: e.target.elements.description.value,
-      color : c ? c.color : 'pink',
+      color : c ? c.color : '#2979ff',
       start: startTime,
       end: endTime
     };
