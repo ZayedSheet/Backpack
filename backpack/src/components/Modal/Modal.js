@@ -116,7 +116,7 @@ export default function TransitionsModal(props) {
 
     let c = COURSES.find(x => x.courseCode === course);
 
-    if(startTime < endTime){
+    if(startTime > endTime){
       const tempStartTime = startTime;
       startTime = endTime;
       endTime = tempStartTime;
