@@ -92,7 +92,8 @@ export default function TransitionsModal(props) {
     newEvent.course = course;
     newEvent.description = e.target.elements['description'].value;
     // newEvent.color = getColor(newEvent.course);
-    newEvent.color = COURSES.find(x => x === course).color || 'pink';
+    let c = COURSES.find(x => x === course);
+    newEvent.color = c ? c.color : 'pink';
 
     const date = e.target.elements['date'].value;
     const startTime = e.target.elements['from'].value;

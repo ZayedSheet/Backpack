@@ -85,11 +85,10 @@ const useStyles = makeStyles((theme) => ({
 //date fns
 const getFirstSunday = () => {
   let today = new Date();
-  //let date = new Date(today.getFullYear(),8, 1);
-  let date = new Date(2018,0, 1);
-  // while (date.getDay() !== 0){
-  //   date.setDate(date.getDate() + 1);
-  // }
+  let date = new Date(today.getFullYear(),8, 1);
+  while (date.getDay() !== 0){
+    date.setDate(date.getDate() + 1);
+  }
   return date;
 }
 
