@@ -58,6 +58,7 @@ const types = [
 ];
 
 export default function TransitionsModal(props) {
+
   const { calendarEvents, setCalendarEvents, myCourses } = useDataProvider();
   const courses = [
     {
@@ -71,20 +72,14 @@ export default function TransitionsModal(props) {
   const { modalState } = props;
 
   useEffect(() => {
-    if(modalState?.type ){
-      setType(modalState.type)
-    }
-    if(modalState?.course ){
-      setCourse(modalState.course)
-    }
+    setType(modalState?.type ?? "None");
+    setCourse(modalState?.course ?? "None");
   }, [modalState]); // Only re-run the effect if count changes
 
 
   const [type, setType] = React.useState("None");
 
   const [course, setCourse] = React.useState("None");
-
-  console.log(modalState, modalState && modalState.course, course);
 
   const handleType = (event) => {
     setType(event.target.value);
@@ -117,7 +112,7 @@ export default function TransitionsModal(props) {
     const startTime = e.target.elements.from.value;
     const endTime = e.target.elements.to.value;
 
-    let c = COURSES.find(x => x === course);
+    let c = COURSES.find(x => x.courseCode === course);
 
     const newEvent = {
       title: e.target.elements.eventName.value,
@@ -129,9 +124,21 @@ export default function TransitionsModal(props) {
       end: getDateObject(date, endTime)
     };
 
-    newEvent.id = getId();
+    if(modalState){
+      const events = calendarEvents.filter((event) =>  event.id !== modalState.id);
+      setCalendarEvents([...events, newEvent]);
+      props.modalClose();
+    } else {
+      newEvent.id = getId();
+      setCalendarEvents([...calendarEvents, newEvent]);
+    }
 
-    setCalendarEvents([...calendarEvents, newEvent]);
+    props.modalClose();
+  }
+
+  const deleteEvent = () => {
+    const events = calendarEvents.filter((event) =>  event.id !== modalState.id);
+    setCalendarEvents([...events]);
     props.modalClose();
   }
 
@@ -262,12 +269,22 @@ export default function TransitionsModal(props) {
           <Divider style={{margin: "10px 0px"}}/>
         </Grid>
 
-        <Grid item xs={2}>
-          <Button type= "submit" style={{backgroundColor: "#4051B5", color: "white", width: "95%"}}>Update</Button>
+        <Grid item container justify="space-between">
+          <Grid xs={9} spacing={2} container item>
+            <Grid item>
+              <Button type= "submit" style={{backgroundColor: "#4051B5", color: "white", width: "125px"}}>{modalState ? "Update" : "Add"}</Button>
+            </Grid>
+            <Grid item>
+              <Button onClick={props.modalClose} style={{backgroundColor: "#414141", color: "white", width: "125px"}}>Cancel</Button>
+            </Grid>
+          </Grid>
+          { modalState &&
+            <Grid item>
+              <Button onClick={deleteEvent} style={{backgroundColor: "#ff1744", color: "white", width: "125px"}}>Delete</Button>
+            </Grid>
+          }
         </Grid>
-        <Grid item xs={2}>
-          <Button onClick={props.modalClose} style={{backgroundColor: "#414141", color: "white", width: "95%"}}>Cancel</Button>
-        </Grid>
+
       </Grid>
     </form>
   );
