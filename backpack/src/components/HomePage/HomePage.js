@@ -88,8 +88,8 @@ export default () => {
                         >
                           <MenuItem value={'*'}>All</MenuItem>
                           {
-                            calendarEvents.map(x => (
-                              <MenuItem value={x.type}>{x.type}</MenuItem>
+                            [...new Set(calendarEvents.map(x => x.type))].map(x => (
+                              <MenuItem value={x}>{x}</MenuItem>
                             ))
                           }
                         </Select>
@@ -133,7 +133,7 @@ export default () => {
           </Grid>
         </Grid>
       <Modal modalClose={modalClose} isModalOpen={isModalOpen} />
-      <SideBar isSideBarOpen={isSideBarOpen} />
+      <SideBar isSideBarOpen={isSideBarOpen} setSideBar={setSideBar} />
     </>
   );
 }

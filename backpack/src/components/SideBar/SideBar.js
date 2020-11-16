@@ -16,8 +16,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import { COURSES } from '../../DefaultData';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useDataProvider } from '../../DataProvider';
@@ -85,8 +85,8 @@ const useStyles = makeStyles((theme) => ({
 //date fns
 const getFirstSunday = () => {
   let today = new Date();
-  let date = new Date(today.getFullYear(),8, 1);
-  while (date.getDay() !== 0){
+  let date = new Date(today.getFullYear(), 8, 1);
+  while (date.getDay() !== 0) {
     date.setDate(date.getDate() + 1);
   }
   return date;
@@ -94,7 +94,7 @@ const getFirstSunday = () => {
 
 
 const CourseAccordion = ({ course }) => {
-  const {setCalendarEvents, calendarEvents} = useDataProvider();
+  const { setCalendarEvents, calendarEvents } = useDataProvider();
   const addedEvent = calendarEvents.find(x => x.isCourse && x.courseCode == course.courseCode);
   const isAdded = Boolean(addedEvent);
   const [selectedSection, setSelectedSection] = useState(isAdded ? addedEvent.section : course.sections[0]);
@@ -103,9 +103,9 @@ const CourseAccordion = ({ course }) => {
     const baseDate = getFirstSunday();
 
     const courseEvents = [];
-    for (let i = 0; i < 16; i++){
-      for (let time of course.times){
-        while (baseDate.getDay() !== time.day){
+    for (let i = 0; i < 16; i++) {
+      for (let time of course.times) {
+        while (baseDate.getDay() !== time.day) {
           baseDate.setDate(baseDate.getDate() + 1);
         }
         let newEvent = {
@@ -174,10 +174,10 @@ const CourseAccordion = ({ course }) => {
 
               >
                 {isAdded ? "Added" : "Add"}
-          </Button>
+              </Button>
             </Grid>
           </Grid>
-          <Box mt={5}/>
+          <Box mt={5} />
           <Grid container item xs={12}>
             <Grid item xs={12}>
               <strong>Prerequisite(s)</strong>
@@ -201,8 +201,12 @@ const CourseAccordion = ({ course }) => {
   )
 }
 
-export default ({ isSideBarOpen }) => {
+export default ({ isSideBarOpen, setSideBar }) => {
   const classes = useStyles();
+  const [filterForm, setFilterForm] = useState({
+    search: '',
+    type: ''
+  });
 
   return (
     <div className={classes.root}>
@@ -216,9 +220,15 @@ export default ({ isSideBarOpen }) => {
         }}
       >
         <Box pt={10} px={2}>
+          <Grid container justify='flex-end'>
+            <IconButton onClick={() => setSideBar(false)}>
+              <CloseIcon />
+            </IconButton>
+          </Grid>
           <Grid container>
             <Grid item xs={6}>
-              Search Text
+              <TextField
+              />
             </Grid>
             <Grid item xs={6} container xs={6} justify='flex-end'>
               Filter

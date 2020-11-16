@@ -17,7 +17,8 @@ export default ({ children }) => {
 
   useEffect(() => {
     setMyCourses([...new Set(calendarEvents.filter(x => x.courseCode).map(x => x.courseCode))]);
-  },[JSON.stringify([...new Set(calendarEvents.filter(x => x.courseCode).map(x => x.courseCode))])])
+  },[JSON.stringify([...new Set(calendarEvents.filter(x => x.courseCode).map(x => x.courseCode))])]);
+
   return (
     <Context.Provider value={store}>
       {children}
