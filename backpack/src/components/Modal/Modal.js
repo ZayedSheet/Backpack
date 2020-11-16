@@ -104,9 +104,9 @@ export default function TransitionsModal(props) {
       case 0:
         return moment(startTime).format('YYYY-MM-DD');
       case 1:
-        return moment(startTime).format('hh:mm');
+        return moment(startTime).format('HH:mm');
       case 2:
-        return moment(endTime).format('hh:mm');
+        return moment(endTime).format('HH:mm');
     }
   }
 

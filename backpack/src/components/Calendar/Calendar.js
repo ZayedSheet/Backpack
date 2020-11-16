@@ -126,6 +126,12 @@ export default (props) => {
                 scrollToTime={new Date(0, 0, 0, 8, 0)}
                 eventPropGetter={eventPropGetter}
                 onSelectEvent={props.eventSelect}
+                selectable
+                onSelectSlot={(info) => {
+                    if (info.action=='select'){
+                        props.onSelectSlot(info.start, info.end);
+                    }
+                }}
             />
         </div>
     );

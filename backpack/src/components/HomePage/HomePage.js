@@ -43,11 +43,17 @@ export default () => {
   }, [filterForm]);
 
   const eventSelect = (event) => {
+    alert('')
     if(event.isCourse){
       return;
     }
     
     setModalState(event);
+    modalOpen();
+  }
+
+  const onSelectSlot = (start, end) => {
+    setModalState({start, end });
     modalOpen();
   }
 
@@ -134,7 +140,7 @@ export default () => {
 
               <Grid item xs={9}>
                 <div style={{ height: '750px' }}>
-                  <Calendar eventSelect={eventSelect}/>
+                  <Calendar eventSelect={eventSelect} onSelectSlot={onSelectSlot}/>
                 </div>
               </Grid>
 
