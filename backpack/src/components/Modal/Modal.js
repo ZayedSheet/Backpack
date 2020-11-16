@@ -14,6 +14,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import moment from 'moment';
 import { useDataProvider } from '../../DataProvider';
 import {COURSES} from '../../DefaultData';
+import { useNotificationProvider } from '../../NotificationProvider';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -60,6 +61,7 @@ const types = [
 export default function TransitionsModal(props) {
 
   const { calendarEvents, setCalendarEvents, myCourses } = useDataProvider();
+  const {notify} = useNotificationProvider();
   const courses = [
     {
       value: 'None',
@@ -109,10 +111,16 @@ export default function TransitionsModal(props) {
     e.preventDefault();
 
     const date = e.target.elements.date.value;
-    const startTime = e.target.elements.from.value;
-    const endTime = e.target.elements.to.value;
+    let startTime = getDateObject(date, e.target.elements.from.value);
+    let endTime = getDateObject(date, e.target.elements.to.value);
 
     let c = COURSES.find(x => x.courseCode === course);
+
+    if(startTime < endTime){
+      const tempStartTime = startTime;
+      startTime = endTime;
+      endTime = tempStartTime;
+    }
 
     const newEvent = {
       title: e.target.elements.eventName.value,
@@ -120,17 +128,19 @@ export default function TransitionsModal(props) {
       course: course,
       description: e.target.elements.description.value,
       color : c ? c.color : 'pink',
-      start: getDateObject(date, startTime),
-      end: getDateObject(date, endTime)
+      start: startTime,
+      end: endTime
     };
 
     if(modalState?.id){
       newEvent.id = modalState.id;
       const events = calendarEvents.filter((event) =>  event.id !== modalState.id);
       setCalendarEvents([...events, newEvent]);
+      notify(`${newEvent.title} has been updated!`);
     } else {
       newEvent.id = getId();
       setCalendarEvents([...calendarEvents, newEvent]);
+      notify(`${newEvent.title} has been added!`);
     }
 
     props.modalClose();
@@ -162,7 +172,8 @@ export default function TransitionsModal(props) {
         </Grid>
 
         <Grid item xs={6}>
-          <TextField 
+          <TextField
+            required 
             style={{width: "100%"}} 
             id="eventName" 
             label="Event Name" 
