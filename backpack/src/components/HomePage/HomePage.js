@@ -97,7 +97,7 @@ export default () => {
                         >
                           <MenuItem value={'*'}>All</MenuItem>
                           {
-                            [...new Set(calendarEvents.map(x => x.type))].map(x => (
+                            [...new Set(calendarEvents.filter(x => x.type).map(x => x.type))].map(x => (
                               <MenuItem value={x}>{x}</MenuItem>
                             ))
                           }

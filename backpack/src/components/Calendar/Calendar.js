@@ -93,7 +93,7 @@ const CustomToolbar = (props) => {
 
             <div style={{display:'none'}}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <DatePicker onClose={() => setOpenDatePicker(false)} showTodayButton value={targetDate} autoSave autoOk okLabel='' cancelLabel='' open={openDatePicker} onChange={(date) => {
+                    <DatePicker onClose={() => setOpenDatePicker(false)} value={targetDate} autoOk okLabel='' cancelLabel='' open={openDatePicker} onChange={(date) => {
                         setTargetDate(date);
                     }} />
                 </MuiPickersUtilsProvider>

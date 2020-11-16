@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -21,6 +21,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl
 import { COURSES } from '../../DefaultData';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useDataProvider } from '../../DataProvider';
+import { useNotificationProvider } from '../../NotificationProvider';
 
 const drawerWidth = '26.5%';
 
@@ -95,10 +96,12 @@ const getFirstSunday = () => {
 
 const CourseAccordion = ({ course }) => {
   const { setCalendarEvents, calendarEvents } = useDataProvider();
-  const addedEvent = calendarEvents.find(x => x.isCourse && x.courseCode == course.courseCode);
+  const {notify} = useNotificationProvider();
+  const addedEvent = calendarEvents.find(x => x.isCourse && x.courseCode.toLowerCase() == course.courseCode.toLowerCase());
   const isAdded = Boolean(addedEvent);
-  const [selectedSection, setSelectedSection] = useState(isAdded ? addedEvent.section : course.sections[0]);
-
+  const selected = isAdded ? addedEvent.section : course.sections[0];
+  const [selectedSection, setSelectedSection] = useState(selected);
+  window.selected = selected;
   const addCourse = () => {
     const baseDate = getFirstSunday();
 
@@ -123,7 +126,8 @@ const CourseAccordion = ({ course }) => {
       }
     }
     console.log(courseEvents);
-    setCalendarEvents([...calendarEvents, ...courseEvents])
+    setCalendarEvents([...calendarEvents, ...courseEvents]);
+    notify(`${course.courseCode} added`);
   }
 
   return (
@@ -150,7 +154,7 @@ const CourseAccordion = ({ course }) => {
                 <InputLabel>Section</InputLabel>
                 <Select
                   disabled={isAdded}
-                  value={selectedSection}
+                  value={selectedSection || ''}
                   onChange={(e) => setSelectedSection(e.target.value)}
                 >
                   {
@@ -203,10 +207,7 @@ const CourseAccordion = ({ course }) => {
 
 export default ({ isSideBarOpen, setSideBar }) => {
   const classes = useStyles();
-  const [filterForm, setFilterForm] = useState({
-    search: '',
-    type: ''
-  });
+  const [searchFilter, setSearchFilter] = useState('');
 
   return (
     <div className={classes.root}>
@@ -228,10 +229,13 @@ export default ({ isSideBarOpen, setSideBar }) => {
           <Grid container>
             <Grid item xs={6}>
               <TextField
+                label='Search'
+                value={searchFilter}
+                onChange={(e) => {
+                  setSearchFilter(e.target.value);
+                }}
+
               />
-            </Grid>
-            <Grid item xs={6} container xs={6} justify='flex-end'>
-              Filter
             </Grid>
           </Grid>
 
@@ -240,9 +244,9 @@ export default ({ isSideBarOpen, setSideBar }) => {
           </Box>
           <Grid container>
             {
-              COURSES.map(x => {
+              COURSES.filter(x => (!searchFilter.toLowerCase() || x.courseCode.toLowerCase().includes(searchFilter.toLowerCase()) ||  x.name.toLowerCase().includes(searchFilter.toLowerCase()))).map(x => {
                 return (
-                  <CourseAccordion course={x} />
+                  <CourseAccordion key={x.courseCode} course={x} />
                 )
               })
             }
