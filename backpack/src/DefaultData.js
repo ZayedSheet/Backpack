@@ -42,6 +42,7 @@ export const CALENDAR_EVENTS = [
         color: '#ffef62',
         type: 'type6',
         courseCode: 'COMPSCI 4HC3',
+        section: 'C02',
         isCourse: true
     },
 ]
@@ -50,15 +51,12 @@ export const COURSES = [
     {
         courseCode: 'COMPSCI 4HC3',
         name: 'Human Computer Interaction',
+        color: "blue",
         prerequisites: 'COMPSCI 3HC3',
         antirequisites: 'SOMETHING SHR2',
         description: 'UI stuff',
+        sections: ['C01', 'C02'],
         times:[
-        {
-            day: 0,
-            from: [8, 30],
-            to: [9, 20],
-        },
         {
             day: 1,
             from: [8, 30],
@@ -68,29 +66,36 @@ export const COURSES = [
             day: 2,
             from: [8, 30],
             to: [9, 20],
+        },
+        {
+            day: 3,
+            from: [8, 30],
+            to: [9, 20],
         }]
     },
     {
         courseCode: 'SFRWENG 1234',
+        color: "red",
         name: 'Coding stuff',
         prerequisites: 'MATH 1ABC',
         antirequisites: 'SFREWNG 567',
-        description: 'How to software',
+        description: 'lorem fhsdaj fjdsiofj sdljf sdilj afhdsijfh sadiulthasdouhfaslid u hfsdiuhfasidlu yhfasiu ghfasdhfsadiuhf alisodhfsadilu fhsadsdilj afhdsijfh sadiulthasdouhfaslid u hfsdiuhfasidlu yhfasiu ghfasdhfsadiuhf alisodhfsadilu fhsadsdilj afhdsijfh sadiulthasdouhfaslid u hfsdiuhfasidlu yhfasiu ghfasdhfsadiuhf alisodhfsadilu fhsadsdilj afhdsijfh sadiulthasdouhfaslid u hfsdiuhfasidlu yhfasiu ghfasdhfsadiuhf alisodhfsadilu fhsadsdilj afhdsijfh sadiulthasdouhfaslid u hfsdiuhfasidlu yhfasiu ghfasdhfsadiuhf alisodhfsadilu fhsadhsdjkfh sdilj afhdsijfh sadiulthasdouhfaslid u hfsdiuhfasidlu yhfasiu ghfasdhfsadiuhf alisodhfsadilu fhsad',
+        sections: ['C01'],
         times:[
         {
-            day: 2,
-            from: [4, 30],
-            to: [5, 20],
-        },
-        {
             day: 3,
-            from: [5, 30],
-            to: [6, 20],
+            from: [14, 30],
+            to: [15, 20],
         },
         {
             day: 4,
-            from: [4, 30],
-            to: [5, 20],
+            from: [17, 30],
+            to: [18, 20],
+        },
+        {
+            day: 5,
+            from: [14, 30],
+            to: [15, 20],
         }],
         
     }

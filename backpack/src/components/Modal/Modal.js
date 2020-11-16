@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import moment from 'moment';
 import { useDataProvider } from '../../DataProvider';
-
+import {COURSES} from '../../DefaultData';
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -56,32 +56,17 @@ const types = [
   },
 ];
 
-const courses = [
-  {
-    value: 'None',
-    label: 'None',
-  },
-  {
-    value: 'COMPSCI 4HC3',
-    label: 'COMPSCI 4HC3',
-  },
-  {
-    value: 'SFRWENG 1234',
-    label: 'SFRWENG 1234',
-  },
-  {
-    value: '4AA4',
-    label: '4AA4',
-  },
-  {
-    value: '4MC3',
-    label: '4MC3',
-  }
-]
+
 
 export default function TransitionsModal(props) {
-  const { calendarEvents, setCalendarEvents } = useDataProvider();
-
+  const { calendarEvents, setCalendarEvents, myCourses } = useDataProvider();
+  const courses = [
+    {
+      value: 'None',
+      label: 'None',
+    },
+    ...myCourses.map(x => ({value: x, label: x}))
+  ]
   const classes = useStyles();
 
   const currentDate = moment(new Date()).format("YYYY-MM-DD");
@@ -106,7 +91,8 @@ export default function TransitionsModal(props) {
     newEvent.type = type;
     newEvent.course = course;
     newEvent.description = e.target.elements['description'].value;
-    newEvent.color = getColor(newEvent.course);
+    // newEvent.color = getColor(newEvent.course);
+    newEvent.color = COURSES.find(x => x === course).color || 'pink';
 
     const date = e.target.elements['date'].value;
     const startTime = e.target.elements['from'].value;

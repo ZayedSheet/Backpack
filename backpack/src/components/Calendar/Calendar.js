@@ -12,7 +12,7 @@ const MonthEvent = ({ event }) => (
     <Grid container>
         <Grid item xs={12}>
             <Typography variant='subtitle1'>
-                {event.title}
+                {event.isCourse ? event.courseCode : event.title}
             </Typography>
         </Grid>
         {
