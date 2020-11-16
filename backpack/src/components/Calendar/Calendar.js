@@ -14,7 +14,7 @@ import {
 import DateRangeIcon from '@material-ui/icons/DateRange';
 moment.locale('en-GB');
 const localizer = momentLocalizer(moment);
-const MonthEvent = ({ event }) => (
+const MonthEvent = ({ event }) => { return (
     <Grid container>
         <Grid item xs={12}>
             <Typography variant='subtitle1'>
@@ -28,7 +28,7 @@ const MonthEvent = ({ event }) => (
             </Grid>
         }
     </Grid>
-);
+)};
 
 const eventPropGetter = (event, start, end, isSelected) => {
     //var backgroundColor = '#' + event.hexColor;
@@ -107,7 +107,7 @@ const CustomToolbar = (props) => {
     );
 }
 
-export default () => {
+export default (props) => {
     const { calendarEvents, targetDate } = useDataProvider();
     return (
         <div style={{ height: '100%' }}>
@@ -125,6 +125,7 @@ export default () => {
                 date={targetDate}
                 scrollToTime={new Date(0, 0, 0, 8, 0)}
                 eventPropGetter={eventPropGetter}
+                onSelectEvent={props.eventSelect}
             />
         </div>
     );

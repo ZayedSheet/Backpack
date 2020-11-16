@@ -13,6 +13,7 @@ export default () => {
   const { calendarEvents, setCalendarEvents } = useDataProvider();
 
   const [isModalOpen, setModal] = React.useState(false);
+  const [modalState, setModalState] = React.useState(null);
   const [isSideBarOpen, setSideBar] = React.useState(false);
   const [filterForm, setFilterForm] = useState({
     courseCode: '*',
@@ -41,6 +42,14 @@ export default () => {
     setCalendarEvents(filteredData);
   }, [filterForm]);
 
+  const eventSelect = (event) => {
+    if(event.isCourse){
+      return;
+    }
+    
+    setModalState(event);
+    modalOpen();
+  }
 
   return (
     <>
@@ -125,14 +134,14 @@ export default () => {
 
               <Grid item xs={9}>
                 <div style={{ height: '750px' }}>
-                  <Calendar />
+                  <Calendar eventSelect={eventSelect}/>
                 </div>
               </Grid>
 
             </Grid>
           </Grid>
         </Grid>
-      <Modal modalClose={modalClose} isModalOpen={isModalOpen} />
+      <Modal modalState={modalState} setModalState={setModalState} modalClose={modalClose} isModalOpen={isModalOpen} />
       <SideBar isSideBarOpen={isSideBarOpen} setSideBar={setSideBar} />
     </>
   );

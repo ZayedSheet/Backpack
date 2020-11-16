@@ -1,46 +1,49 @@
 export const CALENDAR_EVENTS = [
     {
+        id: 1,
+        course: "COMPSCI 4HC3",
         title: 'Event 1',
         start: new Date(2020, 10, 17, 10, 0), // end datetime
         end: new Date(2020, 10, 17, 14, 20), //start datetime
         color: '#ffef62',
-        type: 'type1'
+        type: 'Lab'
     },
     {
+        id: 2,
         title: 'Event 2',
         start: new Date(2020, 10, 18, 15, 0), // end datetime
         end: new Date(2020, 10, 18, 16, 0), //start datetime
         color: '#ffef62',
-        type: 'type2'
-
     },
     {
+        id: 3,
         title: 'Event 3',
         start: new Date(2020, 10, 17, 16, 0), // end datetime
         end: new Date(2020, 10, 17, 17, 30), //start datetime
         color: 'blue',
-        type: 'type3'
+        type: 'Assignment'
     },
     {
+        id: 4,
         title: 'Event 4',
         start: new Date(2020, 10, 16, 15, 0), // end datetime
         end: new Date(2020, 10, 16, 16, 30), //start datetime
         color: 'red',
-        type: 'type4'
     },
     {
+        id: 5,
         title: 'Event 5',
         start: new Date(2020, 10, 16, 10, 0), // end datetime
         end: new Date(2020, 10, 16, 10, 30), //start datetime
         color: 'green',
-        type: 'type5'
     },
     {
+        id: 6,
         title: 'Course 1',
         start: new Date(2020, 10, 19, 11, 30), // end datetime
         end: new Date(2020, 10, 19, 15, 30), //start datetime
         color: '#ffef62',
-        type: 'type6',
+        type: 'Lab',
         courseCode: 'COMPSCI 4HC3',
         section: 'C02',
         isCourse: true

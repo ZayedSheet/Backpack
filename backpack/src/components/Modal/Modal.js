@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import getColor from '../../utils/colorUtil';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -14,6 +14,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import moment from 'moment';
 import { useDataProvider } from '../../DataProvider';
 import {COURSES} from '../../DefaultData';
+
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -56,8 +57,6 @@ const types = [
   },
 ];
 
-
-
 export default function TransitionsModal(props) {
   const { calendarEvents, setCalendarEvents, myCourses } = useDataProvider();
   const courses = [
@@ -69,38 +68,68 @@ export default function TransitionsModal(props) {
   ]
   const classes = useStyles();
 
-  const currentDate = moment(new Date()).format("YYYY-MM-DD");
+  const { modalState } = props;
 
-  const [type, setType] = React.useState('None');
+  useEffect(() => {
+    if(modalState?.type ){
+      setType(modalState.type)
+    }
+    if(modalState?.course ){
+      setCourse(modalState.course)
+    }
+  }, [modalState]); // Only re-run the effect if count changes
+
+
+  const [type, setType] = React.useState("None");
+
+  const [course, setCourse] = React.useState("None");
+
+  console.log(modalState, modalState && modalState.course, course);
 
   const handleType = (event) => {
     setType(event.target.value);
   };
 
-  const [course, setCourse] = React.useState('None');
-
   const handleCourse = (event) => {
     setCourse(event.target.value);
   };
 
+  const getTime = (num) => {
+    const startTime = modalState?.start ?? new Date();
+
+    const endTime = modalState?.end ?? new Date();
+   
+
+    switch(num){
+      case 0:
+        return moment(startTime).format('YYYY-MM-DD');
+      case 1:
+        return moment(startTime).format('hh:mm');
+      case 2:
+        return moment(endTime).format('hh:mm');
+    }
+  }
+
   const addEvent = (e) => {
     e.preventDefault();
 
-    const newEvent = {};
-    newEvent.title = e.target.elements['eventName'].value
-    newEvent.type = type;
-    newEvent.course = course;
-    newEvent.description = e.target.elements['description'].value;
-    // newEvent.color = getColor(newEvent.course);
+    const date = e.target.elements.date.value;
+    const startTime = e.target.elements.from.value;
+    const endTime = e.target.elements.to.value;
+
     let c = COURSES.find(x => x === course);
-    newEvent.color = c ? c.color : 'pink';
 
-    const date = e.target.elements['date'].value;
-    const startTime = e.target.elements['from'].value;
-    const endTime = e.target.elements['to'].value;
+    const newEvent = {
+      title: e.target.elements.eventName.value,
+      type: type,
+      course: course,
+      description: e.target.elements.description.value,
+      color : c ? c.color : 'pink',
+      start: getDateObject(date, startTime),
+      end: getDateObject(date, endTime)
+    };
 
-    newEvent.start = getDateObject(date, startTime);
-    newEvent.end = getDateObject(date, endTime);
+    newEvent.id = getId();
 
     setCalendarEvents([...calendarEvents, newEvent]);
     props.modalClose();
@@ -109,6 +138,10 @@ export default function TransitionsModal(props) {
   const getDateObject = (date, time) =>  {
     return new Date (`${date}T${time}:00`);
   }
+
+  var getId = function () {
+    return '_' + Math.random().toString(36).substr(2, 9);
+  };
 
   const form = (
     <form onSubmit={(e) => addEvent(e)}>
@@ -122,7 +155,13 @@ export default function TransitionsModal(props) {
         </Grid>
 
         <Grid item xs={6}>
-          <TextField style={{width: "100%"}} id="eventName" label="Event Name" variant="outlined" />
+          <TextField 
+            style={{width: "100%"}} 
+            id="eventName" 
+            label="Event Name" 
+            defaultValue={modalState?.title ?? "" } 
+            variant="outlined" 
+          />
         </Grid>
         <Grid item xs={3}>
           <TextField
@@ -167,7 +206,7 @@ export default function TransitionsModal(props) {
             variant="outlined"
             helperText="Enter the event date"
             type="date"
-            defaultValue={currentDate}
+            defaultValue={getTime(0)}
             className={classes.textfield}
             InputLabelProps={{
               shrink: true,
@@ -180,7 +219,7 @@ export default function TransitionsModal(props) {
             label="From"
             type="time"
             variant="outlined"
-            defaultValue="08:00"
+            defaultValue={getTime(1)}
             helperText="Enter the start time"
             className={classes.textfield}
             InputLabelProps={{
@@ -198,7 +237,7 @@ export default function TransitionsModal(props) {
             type="time"
             helperText="Enter the end time"
             variant="outlined"
-            defaultValue="08:15"
+            defaultValue={getTime(2)}
             className={classes.textfield}
             InputLabelProps={{
               shrink: true,
@@ -213,6 +252,7 @@ export default function TransitionsModal(props) {
           <TextField
             className={classes.textfield}
             style={{margin: "15px 0px"}} 
+            defaultValue={modalState?.description ?? "" }
             id="description"
             label="Description"
             multiline
