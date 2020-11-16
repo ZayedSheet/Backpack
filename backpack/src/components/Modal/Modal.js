@@ -1,4 +1,5 @@
 import React from 'react';
+import getColor from '../../utils/colorUtil';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -11,6 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import moment from 'moment';
+import { useDataProvider } from '../../DataProvider';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -60,12 +62,12 @@ const courses = [
     label: 'None',
   },
   {
-    value: '4HC3',
-    label: '4HC3',
+    value: 'COMPSCI 4HC3',
+    label: 'COMPSCI 4HC3',
   },
   {
-    value: '1BA3',
-    label: '1BA3',
+    value: 'SFRWENG 1234',
+    label: 'SFRWENG 1234',
   },
   {
     value: '4AA4',
@@ -78,6 +80,8 @@ const courses = [
 ]
 
 export default function TransitionsModal(props) {
+  const { calendarEvents, setCalendarEvents } = useDataProvider();
+
   const classes = useStyles();
 
   const currentDate = moment(new Date()).format("YYYY-MM-DD");
@@ -94,8 +98,33 @@ export default function TransitionsModal(props) {
     setCourse(event.target.value);
   };
 
+  const addEvent = (e) => {
+    e.preventDefault();
+
+    const newEvent = {};
+    newEvent.title = e.target.elements['eventName'].value
+    newEvent.type = type;
+    newEvent.course = course;
+    newEvent.description = e.target.elements['description'].value;
+    newEvent.color = getColor(newEvent.course);
+
+    const date = e.target.elements['date'].value;
+    const startTime = e.target.elements['from'].value;
+    const endTime = e.target.elements['to'].value;
+
+    newEvent.start = getDateObject(date, startTime);
+    newEvent.end = getDateObject(date, endTime);
+
+    setCalendarEvents([...calendarEvents, newEvent]);
+    props.modalClose();
+  }
+
+  const getDateObject = (date, time) =>  {
+    return new Date (`${date}T${time}:00`);
+  }
+
   const form = (
-    <form>
+    <form onSubmit={(e) => addEvent(e)}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <h2 style={{color: "#414141"}} id="modal-title">Event Details</h2>
@@ -132,7 +161,7 @@ export default function TransitionsModal(props) {
               select
               label="Type"
               value={type}
-              onChange={handleCourse}
+              onChange={handleType}
               variant="outlined"
             >
               {types.map((option) => (
@@ -207,7 +236,7 @@ export default function TransitionsModal(props) {
         </Grid>
 
         <Grid item xs={2}>
-          <Button style={{backgroundColor: "#4051B5", color: "white", width: "95%"}}>Update</Button>
+          <Button type= "submit" style={{backgroundColor: "#4051B5", color: "white", width: "95%"}}>Update</Button>
         </Grid>
         <Grid item xs={2}>
           <Button onClick={props.modalClose} style={{backgroundColor: "#414141", color: "white", width: "95%"}}>Cancel</Button>
