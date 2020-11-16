@@ -43,7 +43,6 @@ export default () => {
   }, [filterForm]);
 
   const eventSelect = (event) => {
-    alert('')
     if(event.isCourse){
       return;
     }
