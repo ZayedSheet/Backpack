@@ -29,6 +29,8 @@ export default () => {
 
   const modalClose = () => {
     setModal(false);
+    setModalState(null);
+    console.log("modalState", modalState);
   };
 
   const hideEvent = (event) => {
@@ -146,7 +148,7 @@ export default () => {
             </Grid>
           </Grid>
         </Grid>
-      <Modal modalState={modalState} setModalState={setModalState} modalClose={modalClose} isModalOpen={isModalOpen} />
+      <Modal modalState={modalState} modalClose={modalClose} isModalOpen={isModalOpen} />
       <SideBar isSideBarOpen={isSideBarOpen} setSideBar={setSideBar} />
     </>
   );
