@@ -88,7 +88,7 @@ export const COURSES = [
     },
     {
         courseCode: 'MATH 1FN2',
-        color: "#651fff",
+        color: "#00e676",
         name: 'Math and Fun stuff',
         prerequisites: 'None',
         antirequisites: 'Math 2FN2',
