@@ -170,8 +170,8 @@ export default (props) => {
         return (
             <Grid container alignItems='center'>
                 <Grid item xs={4}>
-                    <Button onClick={() => setSideBar(!isSideBarOpen)}>Add Course</Button>
-                    <Button onClick={modalOpen}>Add Event</Button>
+                    <Button style={{backgroundColor: "#3f51b5", color: "white", marginRight: "15px", width: "120px", textTransform: "none"}} onClick={modalOpen}>Add Event</Button>
+                    <Button style={{backgroundColor: "#2196f3", color: "white", width: "120px", textTransform: "none"}} onClick={() => setSideBar(!isSideBarOpen)}>Add Course</Button>
                 </Grid>
                 <Grid item xs={4} container justify='center' alignItems='center'>
                     <Typography variant='body1'>
