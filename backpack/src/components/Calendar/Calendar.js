@@ -173,9 +173,13 @@ export default (props) => {
                                     {event.title}
                                 </Typography>
                             </Grid>
-                            <Grid item container justify='flex-end' xs={6}>
-                                <Chip style={{ height: isSmall ? '15px' : '22px' }} label={(!event.type || event.type === 'None') ? 'Event' : event.type} color='primary' size='small' />
-                            </Grid>
+                            {
+                                filterForm.showType && 
+                                    <Grid item container justify='flex-end' xs={6}>
+                                        <Chip style={{ height: isSmall ? '15px' : '22px' }} label={(!event.type || event.type === 'None') ? 'Event' : event.type} color='primary' size='small' />
+                                    </Grid>
+                            }
+                            
                         </Grid>
                 }
     

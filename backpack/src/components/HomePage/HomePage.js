@@ -20,7 +20,7 @@ export default () => {
     type: '*',
     showInstructor: true,
     showSection: true,
-    showCourseCode: true,
+    showType: true,
   });
 
   const modalOpen = () => {
@@ -120,6 +120,12 @@ export default () => {
                       <FormControlLabel
                         control={<Checkbox size='small' color='primary' checked={filterForm.showInstructor} onChange={(e) => setFilterForm({ ...filterForm, showInstructor: e.target.checked })} />}
                         label="Show Instructor"
+                      />
+                      </Grid>
+                      <Grid item xs={12}>
+                      <FormControlLabel
+                        control={<Checkbox size='small' color='primary' checked={filterForm.showType} onChange={(e) => setFilterForm({ ...filterForm, showType: e.target.checked })} />}
+                        label="Show Type"
                       />
                       </Grid>
                     </Grid>
