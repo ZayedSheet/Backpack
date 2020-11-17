@@ -57,6 +57,8 @@ const types = [
   },
 ];
 
+const defaultColor = '#2979ff';
+
 export default function TransitionsModal(props) {
 
   const { calendarEvents, setCalendarEvents, myCourses } = useDataProvider();
@@ -126,7 +128,7 @@ export default function TransitionsModal(props) {
       type: type,
       course: course,
       description: e.target.elements.description.value,
-      color : c ? c.color : '#2979ff',
+      color : c ? c.color : defaultColor,
       start: startTime,
       end: endTime
     };
@@ -146,7 +148,14 @@ export default function TransitionsModal(props) {
   }
 
   const deleteEvent = () => {
-    const events = calendarEvents.filter((event) =>  event.id !== modalState.id);
+    let events;
+    if (modalState.isCourse){
+      events = calendarEvents.filter((event) =>  event.courseCode !== modalState.courseCode);
+      events = events.map(x => x.course === modalState.courseCode ? ({...x, course: 'None', color: defaultColor}) : x);
+    }
+    else{
+      events = calendarEvents.filter((event) =>  event.id !== modalState.id);
+    }
     setCalendarEvents([...events]);
     props.modalClose();
   }
@@ -163,7 +172,7 @@ export default function TransitionsModal(props) {
     <form onSubmit={(e) => addEvent(e)}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <h2 style={{color: "#414141"}} id="modal-title">Event Details</h2>
+          <h2 style={{color: "#414141"}} id="modal-title">{modalState?.isCourse ? 'Course Details' :  'Event Details'}</h2>
           <IconButton onClick={props.modalClose} style={{position: "absolute", top:  "15px", right: "15px"}} aria-label="exit">
             <ClearIcon/>
           </IconButton>
@@ -172,6 +181,7 @@ export default function TransitionsModal(props) {
 
         <Grid item xs={6}>
           <TextField
+            disabled={modalState?.isCourse}
             required 
             style={{width: "100%"}} 
             id="eventName" 
@@ -182,6 +192,7 @@ export default function TransitionsModal(props) {
         </Grid>
         <Grid item xs={3}>
           <TextField
+            disabled={modalState?.isCourse}
             className={classes.textfield}
             id="course"
             select
@@ -199,7 +210,8 @@ export default function TransitionsModal(props) {
         </Grid>
         <Grid item xs={3}>
           <TextField
-              className={classes.textfield}
+            disabled={modalState?.isCourse}
+            className={classes.textfield}
               id="eventType"
               select
               label="Type"
@@ -217,6 +229,7 @@ export default function TransitionsModal(props) {
 
         <Grid item xs={6}>
           <TextField
+            disabled={modalState?.isCourse}
             className={classes.textfield}
             id="date"
             label="Date"
@@ -232,6 +245,7 @@ export default function TransitionsModal(props) {
         </Grid>
         <Grid item xs={3}>
           <TextField
+            disabled={modalState?.isCourse}
             id="from"
             label="From"
             type="time"
@@ -249,6 +263,7 @@ export default function TransitionsModal(props) {
         </Grid>
         <Grid item xs={3}>
           <TextField
+            disabled={modalState?.isCourse}
             id="to"
             label="To"
             type="time"
@@ -267,6 +282,7 @@ export default function TransitionsModal(props) {
 
         <Grid item xs={12}>
           <TextField
+            disabled={modalState?.isCourse}
             className={classes.textfield}
             style={{margin: "15px 0px"}} 
             defaultValue={modalState?.description ?? "" }
@@ -279,16 +295,26 @@ export default function TransitionsModal(props) {
           <Divider style={{margin: "10px 0px"}}/>
         </Grid>
 
+
         <Grid item container justify="space-between">
-          <Grid xs={9} spacing={2} container item>
-            <Grid item>
-              <Button type= "submit" style={{backgroundColor: "#4051B5", color: "white", width: "125px"}}>{Boolean(modalState && modalState.id) ? "Update" : "Add"}</Button>
+         
+              <Grid xs={9} spacing={2} container item>
+              <Grid item>
+              {
+                !modalState?.isCourse &&
+                  <Button type= "submit" style={{backgroundColor: "#4051B5", color: "white", width: "125px"}}>{Boolean(modalState && modalState.id) ? "Update" : "Add"}</Button>
+              }
+
+              </Grid>
+              <Grid item>
+              {
+                !modalState?.isCourse &&
+                <Button onClick={props.modalClose} style={{backgroundColor: "#414141", color: "white", width: "125px"}}>Cancel</Button>
+              }
+              </Grid>
             </Grid>
-            <Grid item>
-              <Button onClick={props.modalClose} style={{backgroundColor: "#414141", color: "white", width: "125px"}}>Cancel</Button>
-            </Grid>
-          </Grid>
-          { Boolean(modalState && modalState.id) &&
+       
+          { Boolean(modalState?.isCourse || (modalState && modalState.id)) &&
             <Grid item>
               <Button onClick={deleteEvent} style={{backgroundColor: "#ff1744", color: "white", width: "125px"}}>Delete</Button>
             </Grid>

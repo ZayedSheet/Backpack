@@ -41,9 +41,9 @@ export default () => {
   }, [filterForm]);
 
   const eventSelect = (event) => {
-    if(event.isCourse){
-      return;
-    }
+    // if(event.isCourse){
+    //   return;
+    // }
     
     setModalState(event);
     modalOpen();
