@@ -97,7 +97,7 @@ const CourseAccordion = ({ course }) => {
     const baseDate = getFirstSunday();
 
     const courseEvents = [];
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < 4*6; i++) {
       for (let time of course.times) {
         while (baseDate.getDay() !== time.day) {
           baseDate.setDate(baseDate.getDate() + 1);
@@ -111,7 +111,8 @@ const CourseAccordion = ({ course }) => {
           type: 'Lecture',
           courseCode: course.courseCode,
           section: selectedSection,
-          isCourse: true
+          isCourse: true,
+          instructor: course.instructor
         }
         courseEvents.push(newEvent);
       }
@@ -171,7 +172,7 @@ const CourseAccordion = ({ course }) => {
               </Button>
             </Grid>
           </Grid>
-          <Box mt={5} />
+          <Box mt={3} />
           <Grid container item xs={12}>
             <Grid item xs={12}>
               <strong>Prerequisite(s)</strong>
@@ -181,7 +182,7 @@ const CourseAccordion = ({ course }) => {
               <strong>Antirequisite(s)</strong>
               <Typography variant={'body1'}>{course.antirequisites}</Typography>
             </Grid>
-            <Grid item xs={12} style={{ marginTop: 50 }}>
+            <Grid item xs={12} style={{ marginTop: 20 }}>
               <Typography variant='body1'>
                 {
                   course.description

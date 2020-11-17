@@ -41,6 +41,7 @@ export const COURSES = [
         antirequisites: 'SOMETHING SHR2',
         description: 'UI stuff',
         sections: ['C01', 'C02'],
+        instructor: 'John Doe',
         times:[
         {
             day: 1,
@@ -66,6 +67,7 @@ export const COURSES = [
         antirequisites: 'SFREWNG 567',
         description: 'lorem fhsdaj fjdsiofj sdljf sdilj afhdsijfh sadiulthasdouhfaslid u hfsdiuhfasidlu yhfasiu ghfasdhfsadiuhf alisodhfsadilu fhsadsdilj afhdsijfh sadiulthasdouhfaslid u hfsdiuhfasidlu yhfasiu ghfasdhfsadiuhf alisodhfsadilu fhsadsdilj afhdsijfh sadiulthasdouhfaslid u hfsdiuhfasidlu yhfasiu ghfasdhfsadiuhf alisodhfsadilu fhsadsdilj afhdsijfh sadiulthasdouhfaslid u hfsdiuhfasidlu yhfasiu ghfasdhfsadiuhf alisodhfsadilu fhsadsdilj afhdsijfh sadiulthasdouhfaslid u hfsdiuhfasidlu yhfasiu ghfasdhfsadiuhf alisodhfsadilu fhsadhsdjkfh sdilj afhdsijfh sadiulthasdouhfaslid u hfsdiuhfasidlu yhfasiu ghfasdhfsadiuhf alisodhfsadilu fhsad',
         sections: ['C01'],
+        instructor: 'Jane Doe',
         times:[
         {
             day: 3,

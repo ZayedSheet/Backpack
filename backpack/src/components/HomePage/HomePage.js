@@ -34,7 +34,7 @@ export default () => {
   };
 
   const hideEvent = (event) => {
-    const showEvent = (filterForm.courseCode == '*' || filterForm.courseCode == event.courseCode) &&
+    const showEvent = (filterForm.courseCode == '*' || filterForm.courseCode == event.courseCode || filterForm.courseCode == event.course) &&
       (filterForm.type == '*' || filterForm.type == event.type);
     return !showEvent;
   }
@@ -112,20 +112,14 @@ export default () => {
                     <Grid container item xs={12}>
                       <Grid item xs={12}>
                       <FormControlLabel
-                        control={<Checkbox size='small' color='primary' checked={filterForm.showInstructor} onChange={(e) => setFilterForm({ ...filterForm, showInstructor: e.target.checked })} />}
-                        label="Show Instructor"
-                      />
-                      </Grid>
-                      <Grid item xs={12}>
-                      <FormControlLabel
-                        control={<Checkbox size='small' color='primary' checked={filterForm.showCourseCode} onChange={(e) => setFilterForm({ ...filterForm, showCourseCode: e.target.checked })} />}
-                        label="Show Course Code"
-                      />
-                      </Grid>
-                      <Grid item xs={12}>
-                      <FormControlLabel
                         control={<Checkbox size='small' color='primary' checked={filterForm.showSection} onChange={(e) => setFilterForm({ ...filterForm, showSection: e.target.checked })} />}
                         label="Show Section"
+                      />
+                      </Grid>
+                      <Grid item xs={12}>
+                      <FormControlLabel
+                        control={<Checkbox size='small' color='primary' checked={filterForm.showInstructor} onChange={(e) => setFilterForm({ ...filterForm, showInstructor: e.target.checked })} />}
+                        label="Show Instructor"
                       />
                       </Grid>
                     </Grid>
@@ -135,7 +129,7 @@ export default () => {
 
               <Grid item xs={9}>
                 <div style={{ height: '750px' }}>
-                  <Calendar modalOpen={modalOpen} setSideBar={setSideBar} isSideBarOpen={isSideBarOpen} eventSelect={eventSelect} onSelectSlot={onSelectSlot}/>
+                  <Calendar filterForm={filterForm} modalOpen={modalOpen} setSideBar={setSideBar} isSideBarOpen={isSideBarOpen} eventSelect={eventSelect} onSelectSlot={onSelectSlot}/>
                 </div>
               </Grid>
 
