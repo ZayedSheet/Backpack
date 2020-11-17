@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Box, Button, Chip, Grid, IconButton, makeStyles, Paper, Popover, Typography } from '@material-ui/core';
+import { Box, Button, Chip, Divider, Grid, IconButton, makeStyles, Paper, Popover, Typography } from '@material-ui/core';
 import { useDataProvider } from '../../DataProvider';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -212,11 +212,19 @@ export default (props) => {
     
                                 {
                                     Boolean(event.isCourse && event.courseCode) &&
-                                    <Grid item xs={12}>
-                                        <Typography variant='subtitle1'>
-                                            {event.courseCode}
-                                        </Typography>
+                                    <Grid item container>
+                                        <Grid item xs={12}>
+                                                <small>
+                                                {event.courseCode}
+                                                </small>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <small>
+                                                {event.instructor}, {event.section}
+                                            </small>
+                                        </Grid>
                                     </Grid>
+                                   
     
                                 }
                                 {
@@ -230,17 +238,22 @@ export default (props) => {
                                 }
                                 {
                                     <Grid item xs={12}>
-                                        <Typography variant='subtitle1'>
+                                        <small>
                                             {!event.type || event.type === 'None' ? 'Event' : event.type}
-                                        </Typography>
+                                        </small>
                                     </Grid>
                                 }
                                 {
                                     event.description &&
-                                    <Grid item xs={12} style={{ marginTop: '10px', maxWidth: '100%', maxHeight: '100px' }}>
-                                        <Typography variant='body1' style={{ wordWrap: 'break-word' }}>
-                                            {formatDescription()}
-                                        </Typography>
+                                    <Grid item xs={12} container style={{marginTop: '10px'}}>
+                                        <Grid item xs={12}>
+                                            <Divider />
+                                        </Grid>
+                                        <Grid item xs={12} style={{marginTop: '10px', maxWidth: '100%', maxHeight: '100px' }}>
+                                            <Typography variant='body1' style={{ wordWrap: 'break-word' }}>
+                                                {formatDescription()}
+                                            </Typography>
+                                        </Grid>
                                     </Grid>
                                 }
     
