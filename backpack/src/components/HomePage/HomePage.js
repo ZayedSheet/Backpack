@@ -1,9 +1,5 @@
-import { Box, Grid, Button, Card, Paper, Typography, Select, FormControl, InputLabel, MenuItem, Divider, FormControlLabel, Checkbox } from '@material-ui/core';
+import { Box, Grid, Paper, Select, FormControl, InputLabel, MenuItem, Divider, FormControlLabel, Checkbox } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import {
-  Switch,
-  Route,
-} from "react-router-dom";
 import { useDataProvider } from '../../DataProvider';
 import Calendar from '../Calendar/Calendar';
 import Modal from '../Modal/Modal';
