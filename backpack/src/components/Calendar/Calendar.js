@@ -7,6 +7,8 @@ import { Box, Button, Chip, Divider, Grid, IconButton, makeStyles, Paper, Popove
 import { useDataProvider } from '../../DataProvider';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import EventIcon from '@material-ui/icons/Event';
+import ClassIcon from '@material-ui/icons/Class';
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
 import {
     DatePicker, MuiPickersUtilsProvider,
@@ -52,8 +54,8 @@ export default (props) => {
         return (
             <Grid container alignItems='center'>
                 <Grid item xs={4}>
-                    <Button style={{backgroundColor: "#3f51b5", color: "white", marginRight: "15px", width: "120px", textTransform: "none"}} onClick={modalOpen}>Add Event</Button>
-                    <Button style={{backgroundColor: "#2196f3", color: "white", width: "120px", textTransform: "none"}} onClick={() => setSideBar(!isSideBarOpen)}>Add Course</Button>
+                    <Button startIcon={<EventIcon />} style={{backgroundColor: "#3f51b5", color: "white", marginRight: "5px", width: "120px", textTransform: "none"}} onClick={modalOpen}>Add Event</Button>
+                    <Button startIcon={<ClassIcon />} style={{backgroundColor: "#2196f3", color: "white", width: "120px", textTransform: "none"}} onClick={() => setSideBar(!isSideBarOpen)}>Add Course</Button>
                 </Grid>
                 <Grid item xs={4} container justify='center' alignItems='center'>
                     <Typography variant='body1'>

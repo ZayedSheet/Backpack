@@ -69,6 +69,7 @@ export default () => {
                 <Paper elevation={4} style={{ height: "650px" }}>
                   <Box p={2}>
                     <Grid container item xs={7}>
+                    <h3>Filter Calendar</h3>
                       <FormControl fullWidth>
                         <InputLabel>Course</InputLabel>
                         <Select
@@ -111,6 +112,7 @@ export default () => {
 
                     <Grid container item xs={12}>
                       <Grid item xs={12}>
+                      <h3>Toggle Course Info</h3>
                       <FormControlLabel
                         control={<Checkbox size='small' color='primary' checked={filterForm.showSection} onChange={(e) => setFilterForm({ ...filterForm, showSection: e.target.checked })} />}
                         label="Show Section"
@@ -121,7 +123,9 @@ export default () => {
                         control={<Checkbox size='small' color='primary' checked={filterForm.showInstructor} onChange={(e) => setFilterForm({ ...filterForm, showInstructor: e.target.checked })} />}
                         label="Show Instructor"
                       />
+                      <Divider style={{margin: "15px 0px"}}/>
                       </Grid>
+                      <h3>Toggle Event Info</h3>
                       <Grid item xs={12}>
                       <FormControlLabel
                         control={<Checkbox size='small' color='primary' checked={filterForm.showType} onChange={(e) => setFilterForm({ ...filterForm, showType: e.target.checked })} />}
