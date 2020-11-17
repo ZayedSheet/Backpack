@@ -1,23 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React, {useState } from 'react';
+import { makeStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import CloseIcon from '@material-ui/icons/Close';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import { Accordion, AccordionSummary, Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
 import { COURSES } from '../../DefaultData';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useDataProvider } from '../../DataProvider';
@@ -55,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: "#f9f9f9",
   },
   drawerHeader: {
     display: 'flex',
@@ -81,6 +69,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 0,
     left: drawerWidth
   },
+  divider: {
+    // Theme Color, or use css color in quote
+    background: "#616161",
+  }
 }));
 
 //date fns
@@ -225,10 +217,13 @@ export default ({ isSideBarOpen, setSideBar }) => {
             </IconButton>
           </Grid>
           <Grid container>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
+              <h1 style={{margin: "10px 0px"}} >Add Course</h1>
               <TextField
+                style={{width: "80%"}}
                 label='Search'
                 value={searchFilter}
+                helperText="Search for a course"
                 onChange={(e) => {
                   setSearchFilter(e.target.value);
                 }}
@@ -237,9 +232,7 @@ export default ({ isSideBarOpen, setSideBar }) => {
             </Grid>
           </Grid>
 
-          <Box py={4}>
-            <Divider />
-          </Box>
+          <Box py={2}></Box>
           <Grid container>
             {
               COURSES.filter(x => (!searchFilter.toLowerCase() || x.courseCode.toLowerCase().includes(searchFilter.toLowerCase()) ||  x.name.toLowerCase().includes(searchFilter.toLowerCase()))).map(x => {
