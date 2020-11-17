@@ -8,6 +8,7 @@ import DataProvider from './DataProvider';
 import Navbar from './components/Navbar/Navbar'
 import { Box } from '@material-ui/core';
 import NotificationProvider from './NotificationProvider';
+import HomePage from './components/HomePage/HomePage';
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
         <Navbar />
         <Box pt={5} />
         <NotificationProvider>
-          <Routes />
+          <HomePage />
+          {/* <Routes /> */}
         </NotificationProvider>
       </DataProvider>
     </Router>
